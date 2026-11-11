@@ -6,7 +6,7 @@
   --paper: #fff;
   --photo-bg: #d9d9d9;
   --pad-left: 8.8vw;
-  --pad-right: 15.7vw;
+  --pad-right: 8.8vw;
   color-scheme: light;
 }
 
@@ -112,7 +112,6 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   grid-area: nav;
   align-self: end;
   margin-bottom: -34px;          /* hangs one line below the bio, as in the mockup */
-  padding-right: 42px;
   text-align: right;
   font-size: 21px;
   line-height: 34px;
@@ -128,16 +127,30 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 
 .recent {
   grid-area: recent;
-  width: min(605px, 100%);
-  margin-left: auto;
-  margin-top: clamp(140px, 23vw, 450px);
+  align-self: end;
+  margin-top: 64px;
   text-align: right;
 }
 .recent h2 {
   font-size: 21px;
   line-height: 26px;
-  padding-right: 22px;
   margin-bottom: 30px;
+}
+
+.recent ul li {
+  padding-left: 0;
+  white-space: nowrap;            /* each item on one long line */
+}
+.recent ul li::before { content: none; }
+.recent ul li + li { margin-top: 0; }
+
+/* home fits one screen: recent sits at the bottom of the window */
+.page.home {
+  min-height: 100vh;
+  min-height: 100svh;
+  grid-template-rows: auto auto 1fr;
+  padding-top: clamp(40px, 12vh, 178px);
+  padding-bottom: clamp(36px, 8vh, 120px);
 }
 
 /* ---------- inner pages (research, cv) ---------- */
@@ -222,7 +235,7 @@ ul li::before {
 @media (max-width: 760px) {
   :root {
     --pad-left: 7vw;
-    --pad-right: 10.4vw;
+    --pad-right: 7vw;
   }
 
   .page,
@@ -247,7 +260,6 @@ ul li::before {
   .page.sub .nav {
     align-self: start;
     margin-bottom: 0;
-    padding-right: 5.6vw;
     line-height: 31px;
   }
 
@@ -279,12 +291,15 @@ ul li::before {
     padding-right: 9vw;
   }
 
-  .recent {
-    width: 72%;
-    margin-top: 150px;
+  .recent { margin-top: 110px; }
+  .recent ul li { white-space: normal; }
+  .recent ul li + li { margin-top: 10px; }
+  .page.home {
+    grid-template-rows: auto;
+    padding-top: 56px;
+    padding-bottom: 72px;
   }
   .recent h2 {
-    padding-right: 14px;
     margin-bottom: 26px;
   }
 
