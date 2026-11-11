@@ -1,0 +1,308 @@
+/* Yaqi Hu — personal site. One stylesheet for every page.
+   Type scale follows the layout mockup: 30 / 21 / 18 / 15 px, all regular weight. */
+
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --photo-bg: #d9d9d9;
+  --pad-left: 8.8vw;
+  --pad-right: 15.7vw;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 23px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+p { margin: 0; }
+h1, h2, h3 { margin: 0; font-weight: 400; }
+
+/* ---------- page grid ---------- */
+
+.page {
+  display: grid;
+  grid-template-columns: 73% 1fr;
+  grid-template-areas:
+    "id     id"
+    "bio    nav"
+    "recent recent";
+  max-width: 1960px;
+  margin: 0 auto;
+  padding: clamp(72px, 9vw, 178px) var(--pad-right) 120px var(--pad-left);
+}
+
+/* ---------- identity block: photo, name, rule, email ---------- */
+
+.id {
+  grid-area: id;
+  display: flex;
+  align-items: flex-end;
+  gap: 46px;
+}
+
+.photo {
+  width: 148px;
+  height: 182px;
+  flex: none;
+  object-fit: cover;
+  object-position: 50% 30%;
+  background: var(--photo-bg);
+  display: block;
+}
+
+.name {
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.01em;
+}
+.name a { text-decoration: none; }
+
+.rule-row {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: -8px;
+}
+.rule {
+  width: 353px;
+  max-width: 40vw;
+  height: 0;
+  border-top: 1.5px solid var(--ink);
+  flex: none;
+}
+.email {
+  margin-left: 12px;
+  font-size: 15px;
+  line-height: 18px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.email:hover { text-decoration: underline; }
+
+/* ---------- bio ---------- */
+
+.bio {
+  grid-area: bio;
+  margin-top: 38px;
+}
+
+/* ---------- nav ---------- */
+
+.nav {
+  grid-area: nav;
+  align-self: end;
+  margin-bottom: -34px;          /* hangs one line below the bio, as in the mockup */
+  padding-right: 42px;
+  text-align: right;
+  font-size: 21px;
+  line-height: 34px;
+}
+.nav a {
+  display: block;
+  text-decoration: none;
+}
+.nav a:hover,
+.nav a[aria-current="page"] { text-decoration: underline; }
+
+/* ---------- recent ---------- */
+
+.recent {
+  grid-area: recent;
+  width: min(605px, 100%);
+  margin-left: auto;
+  margin-top: clamp(140px, 23vw, 450px);
+  text-align: right;
+}
+.recent h2 {
+  font-size: 21px;
+  line-height: 26px;
+  padding-right: 22px;
+  margin-bottom: 30px;
+}
+
+/* ---------- inner pages (research, cv) ---------- */
+
+.page.sub {
+  grid-template-areas:
+    "id      nav"
+    "content content";
+  padding-top: clamp(64px, 6vw, 120px);
+}
+.page.sub .nav { margin-bottom: -8px; }
+
+.content {
+  grid-area: content;
+  width: 73%;
+  margin-top: 72px;
+}
+.content > .lede { margin-bottom: 64px; }
+
+.content section + section { margin-top: 72px; }
+
+.content h2 {
+  font-size: 21px;
+  line-height: 26px;
+  margin-bottom: 26px;
+}
+
+.entry + .entry { margin-top: 40px; }
+
+.entry h3 {
+  font-size: 21px;
+  line-height: 27px;
+}
+.entry .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+}
+.entry .when {
+  font-size: 15px;
+  line-height: 18px;
+  white-space: nowrap;
+  flex: none;
+}
+.meta {
+  font-size: 15px;
+  line-height: 20px;
+  margin-top: 4px;
+}
+.entry p + p,
+.entry ul { margin-top: 10px; }
+.entry h3 + p { margin-top: 10px; }
+.entry h3 + .meta,
+.entry .head + .meta { margin-top: 4px; }
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul li {
+  position: relative;
+  padding-left: 22px;
+}
+ul li + li { margin-top: 6px; }
+ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+}
+
+.plain p + p { margin-top: 10px; }
+
+.foot {
+  grid-area: content;
+  display: none;
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 760px) {
+  :root {
+    --pad-left: 7vw;
+    --pad-right: 10.4vw;
+  }
+
+  .page,
+  .page.sub {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "nav"
+      "id"
+      "bio"
+      "recent";
+    padding-top: 56px;
+    padding-bottom: 72px;
+  }
+  .page.sub {
+    grid-template-areas:
+      "nav"
+      "id"
+      "content";
+  }
+
+  .nav,
+  .page.sub .nav {
+    align-self: start;
+    margin-bottom: 0;
+    padding-right: 5.6vw;
+    line-height: 31px;
+  }
+
+  .id {
+    display: block;
+    margin-top: 50px;
+  }
+  .photo {
+    width: 112px;
+    height: 150px;
+  }
+  .name { margin-top: 22px; }
+  .rule-row {
+    display: block;
+    margin: 8px 0 0 -4px;
+  }
+  .rule {
+    display: block;
+    width: 258px;
+    max-width: 70%;
+  }
+  .email {
+    display: inline-block;
+    margin: 8px 0 0 9px;
+  }
+
+  .bio {
+    margin-top: 22px;
+    padding-right: 9vw;
+  }
+
+  .recent {
+    width: 72%;
+    margin-top: 150px;
+  }
+  .recent h2 {
+    padding-right: 14px;
+    margin-bottom: 26px;
+  }
+
+  .page.sub .id { margin-top: 36px; }
+  .content {
+    width: 100%;
+    margin-top: 48px;
+  }
+  .content > .lede { margin-bottom: 48px; }
+  .content section + section { margin-top: 56px; }
+  .entry .head { display: block; }
+  .entry .when { display: block; margin-top: 4px; }
+}
+
+@media print {
+  .nav { display: none; }
+  .page, .page.sub { padding: 0; display: block; }
+  .content { width: 100%; margin-top: 24px; }
+  body { font-size: 11pt; line-height: 1.35; }
+  .entry { break-inside: avoid; }
+}
