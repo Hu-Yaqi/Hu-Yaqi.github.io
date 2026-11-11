@@ -36,18 +36,36 @@
   </nav>
 
   <!-- ============ RECENT ============
-       One <li> per item, newest first. Each item sits on its own line. -->
+       One <li> per item, most important first. Each item stays on one line,
+       however long; the script at the bottom shrinks the text if a line is wider than the screen. -->
   <section class="recent">
     <h2>recent</h2>
-    <ul>
-      <li>preparing <a href="research.html#drift">Rethinking Behavioral Drift</a> for journal submission;</li>
-      <li>building the website and study for my M.A. project, <a href="research.html#magic">How Do LLMs Read Our Minds?</a>;</li>
-      <li>helping design a two-visit fMRI study in the Neuroeconomics Lab;</li>
-      <li>presented <a href="https://hu-yaqi.github.io/presentation-smith-lab-meeting-2026-11-10/">choice inconsistency, from NARPS to the new replication</a> at the Smith lab meeting, Nov 2026;</li>
-      <li>applying to PhD programs for Fall 2027;</li>
+    <ul id="recent-list">
+      <li>applying to PhD programs for Fall 2027</li>
+      <li>preparing <a href="research.html#drift">Rethinking Behavioral Drift</a> for journal submission</li>
+      <li>building my M.A. project, <a href="research.html#magic">How Do LLMs Read Our Minds?</a></li>
+      <li>helping design a two-visit fMRI study in the Neuroeconomics Lab</li>
+      <li>presented <a href="https://hu-yaqi.github.io/presentation-smith-lab-meeting-2026-11-10/">choice inconsistency</a> at the Smith lab meeting, Nov 2026</li>
     </ul>
   </section>
 
 </main>
+<script>
+  // Keep every "recent" item on a single line: shrink the list's text until the longest line fits.
+  (function () {
+    var ul = document.getElementById('recent-list');
+    if (!ul) return;
+    function fit() {
+      ul.style.fontSize = '';
+      var base = parseFloat(getComputedStyle(ul).fontSize), widest = 0;
+      for (var i = 0; i < ul.children.length; i++) widest = Math.max(widest, ul.children[i].scrollWidth);
+      if (widest > ul.clientWidth) ul.style.fontSize = Math.max(8, Math.floor(base * ul.clientWidth / widest * 10) / 10) + 'px';
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    window.addEventListener('load', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+</script>
 </body>
 </html>

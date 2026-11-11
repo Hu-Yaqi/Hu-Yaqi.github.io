@@ -1,12 +1,12 @@
 /* Yaqi Hu — personal site. One stylesheet for every page.
-   Type scale follows the layout mockup: 30 / 21 / 18 / 15 px, all regular weight. */
+   Type layers, all regular weight:
+   30 name / 21 section title / 18 entry title / 15–16 text / 13 small notes. */
 
 :root {
   --ink: #000;
   --paper: #fff;
   --photo-bg: #d9d9d9;
-  --pad-left: 8.8vw;
-  --pad-right: 8.8vw;
+  --pad-x: 8.8vw;                 /* same gap on the left and right edge */
   color-scheme: light;
 }
 
@@ -19,8 +19,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  line-height: 23px;
+  font-size: 15px;
+  line-height: 21px;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -36,6 +36,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 p { margin: 0; }
 h1, h2, h3 { margin: 0; font-weight: 400; }
+ul { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- page grid ---------- */
 
@@ -48,7 +49,17 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
     "recent recent";
   max-width: 1960px;
   margin: 0 auto;
-  padding: clamp(72px, 9vw, 178px) var(--pad-right) 120px var(--pad-left);
+  padding: clamp(72px, 9vw, 178px) var(--pad-x) 120px;
+}
+
+/* home is a fixed page: exactly one screen, no scrolling */
+.page.home {
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  grid-template-rows: auto auto 1fr;
+  padding-top: clamp(32px, 12vh, 178px);
+  padding-bottom: clamp(28px, 8vh, 120px);
 }
 
 /* ---------- identity block: photo, name, rule, email ---------- */
@@ -92,7 +103,7 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 }
 .email {
   margin-left: 12px;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 18px;
   text-decoration: none;
   white-space: nowrap;
@@ -104,6 +115,8 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 .bio {
   grid-area: bio;
   margin-top: 38px;
+  font-size: 16px;
+  line-height: 22px;
 }
 
 /* ---------- nav ---------- */
@@ -128,30 +141,23 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
 .recent {
   grid-area: recent;
   align-self: end;
-  margin-top: 64px;
+  min-width: 0;
+  margin-top: 48px;
   text-align: right;
 }
 .recent h2 {
   font-size: 21px;
   line-height: 26px;
-  margin-bottom: 30px;
+  margin-bottom: 22px;
 }
-
-.recent ul li {
-  padding-left: 0;
-  white-space: nowrap;            /* each item on one long line */
+.recent ul {
+  font-size: 15px;
+  line-height: 1.4;
 }
-.recent ul li::before { content: none; }
-.recent ul li + li { margin-top: 0; }
-
-/* home fits one screen: recent sits at the bottom of the window */
-.page.home {
-  min-height: 100vh;
-  min-height: 100svh;
-  grid-template-rows: auto auto 1fr;
-  padding-top: clamp(40px, 12vh, 178px);
-  padding-bottom: clamp(36px, 8vh, 120px);
+.recent li {
+  white-space: nowrap;           /* one item = one line, never wraps */
 }
+.recent li + li { margin-top: 0.6em; }
 
 /* ---------- inner pages (research, cv) ---------- */
 
@@ -168,21 +174,26 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   width: 73%;
   margin-top: 72px;
 }
-.content > .lede { margin-bottom: 64px; }
+.content > .lede {
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 80px;
+}
 
-.content section + section { margin-top: 72px; }
+.content section + section { margin-top: 96px; }
 
 .content h2 {
   font-size: 21px;
   line-height: 26px;
-  margin-bottom: 26px;
+  margin-bottom: 36px;
 }
 
-.entry + .entry { margin-top: 40px; }
+/* wide gap between one project and the next, tight spacing inside a project */
+.entry + .entry { margin-top: 60px; }
 
 .entry h3 {
-  font-size: 21px;
-  line-height: 27px;
+  font-size: 18px;
+  line-height: 24px;
 }
 .entry .head {
   display: flex;
@@ -191,33 +202,30 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   gap: 24px;
 }
 .entry .when {
-  font-size: 15px;
+  font-size: 13px;
   line-height: 18px;
   white-space: nowrap;
   flex: none;
 }
 .meta {
-  font-size: 15px;
-  line-height: 20px;
-  margin-top: 4px;
+  font-size: 13px;
+  line-height: 18px;
 }
+.entry .head + .meta { margin-top: 3px; }
 .entry p + p,
-.entry ul { margin-top: 10px; }
-.entry h3 + p { margin-top: 10px; }
-.entry h3 + .meta,
-.entry .head + .meta { margin-top: 4px; }
+.entry .meta + ul,
+.entry .head + p { margin-top: 8px; }
+.entry .meta + p { margin-top: 10px; }
 
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-ul li {
+/* short entries with a title line only (coursework, honors) sit closer together */
+.compact .entry + .entry { margin-top: 22px; }
+
+.entry ul li {
   position: relative;
-  padding-left: 22px;
+  padding-left: 20px;
 }
-ul li + li { margin-top: 6px; }
-ul li::before {
+.entry ul li + li { margin-top: 5px; }
+.entry ul li::before {
   content: "–";
   position: absolute;
   left: 0;
@@ -225,99 +233,96 @@ ul li::before {
 
 .plain p + p { margin-top: 10px; }
 
-.foot {
-  grid-area: content;
-  display: none;
-}
-
 /* ---------- small screens ---------- */
 
 @media (max-width: 760px) {
-  :root {
-    --pad-left: 7vw;
-    --pad-right: 7vw;
-  }
+  :root { --pad-x: 7vw; }
 
-  .page,
+  .page.home {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "id     nav"
+      "bio    bio"
+      "recent recent";
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: visible;
+    padding-top: 28px;
+    padding-bottom: 24px;
+  }
   .page.sub {
     grid-template-columns: 1fr;
     grid-template-areas:
       "nav"
       "id"
-      "bio"
-      "recent";
-    padding-top: 56px;
-    padding-bottom: 72px;
-  }
-  .page.sub {
-    grid-template-areas:
-      "nav"
-      "id"
       "content";
+    padding-top: 40px;
+    padding-bottom: 72px;
   }
 
   .nav,
   .page.sub .nav {
     align-self: start;
     margin-bottom: 0;
-    line-height: 31px;
+    font-size: 19px;
+    line-height: 28px;
   }
 
-  .id {
-    display: block;
-    margin-top: 50px;
-  }
+  .id { display: block; }
   .photo {
-    width: 112px;
-    height: 150px;
+    width: 90px;
+    height: 120px;
   }
-  .name { margin-top: 22px; }
+  .name { margin-top: 16px; }
   .rule-row {
     display: block;
-    margin: 8px 0 0 -4px;
+    margin: 6px 0 0 -4px;
   }
   .rule {
     display: block;
     width: 258px;
-    max-width: 70%;
+    max-width: 70vw;
   }
   .email {
     display: inline-block;
-    margin: 8px 0 0 9px;
+    margin: 6px 0 0 9px;
   }
 
   .bio {
-    margin-top: 22px;
-    padding-right: 9vw;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 19px;
   }
 
-  .recent { margin-top: 110px; }
-  .recent ul li { white-space: normal; }
-  .recent ul li + li { margin-top: 10px; }
-  .page.home {
-    grid-template-rows: auto;
-    padding-top: 56px;
-    padding-bottom: 72px;
-  }
-  .recent h2 {
-    margin-bottom: 26px;
-  }
+  .recent { margin-top: 28px; }
+  .recent h2 { margin-bottom: 14px; }
+  .recent ul { font-size: 13px; }
 
-  .page.sub .id { margin-top: 36px; }
+  .page.sub .id { margin-top: 28px; }
   .content {
     width: 100%;
-    margin-top: 48px;
+    margin-top: 44px;
   }
-  .content > .lede { margin-bottom: 48px; }
-  .content section + section { margin-top: 56px; }
+  .content > .lede { margin-bottom: 56px; }
+  .content section + section { margin-top: 72px; }
   .entry .head { display: block; }
-  .entry .when { display: block; margin-top: 4px; }
+  .entry .when { display: block; margin-top: 3px; }
+}
+
+/* very short windows: let the home page scroll rather than cut text off */
+@media (max-height: 560px) {
+  .page.home {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
 }
 
 @media print {
   .nav { display: none; }
   .page, .page.sub { padding: 0; display: block; }
   .content { width: 100%; margin-top: 24px; }
-  body { font-size: 11pt; line-height: 1.35; }
+  body { font-size: 10.5pt; line-height: 1.35; }
   .entry { break-inside: avoid; }
 }
